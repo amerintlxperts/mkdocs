@@ -6,8 +6,8 @@ on:
       - main  # Trigger on push to main branch
 
 permissions:
-  id-token: write
-  contents: write
+  packages: write
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
