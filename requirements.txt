@@ -15,4 +15,4 @@ mkdocs-same-dir
 mkdocs-section-index
 mkdocstrings[crystal,python]
 mkdocs-with-pdf
-
+pydyf

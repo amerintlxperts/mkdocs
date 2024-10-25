@@ -16,7 +16,6 @@ RUN apk add --no-cache \
   py3-cffi \
   py3-pip \
   python3-dev \
-  pydyf \
   ttf-dejavu \
   ttf-freefont \
   weasyprint \
