@@ -1,4 +1,5 @@
 material
+mkdocs-add-teaser
 mkdocs-awesome-pages-plugin
 mkdocs-enumerate-headings-plugin
 mkdocs-exclude
@@ -13,6 +14,7 @@ mkdocs-monorepo-plugin
 mkdocs-pdf-export-plugin
 mkdocs-same-dir
 mkdocs-section-index
+mkdocs-table-reader-plugin
 mkdocstrings[crystal,python]
 mkdocs-with-pdf
 pydyf
