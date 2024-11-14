@@ -24,3 +24,5 @@ RUN apk --no-cache add msttcorefonts-installer fontconfig && \
     update-ms-fonts && \
     fc-cache -f
 RUN pip install -U -r requirements.txt
+RUN echo "[safe]
+	directory = /docs/docs" > /.gitconfig
