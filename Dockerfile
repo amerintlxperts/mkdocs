@@ -24,5 +24,4 @@ RUN apk --no-cache add msttcorefonts-installer fontconfig && \
     update-ms-fonts && \
     fc-cache -f
 RUN pip install -U -r requirements.txt
-RUN addgroup -g 127 docker && adduser -h /docs -D -u 1001 runner -G docker
-USER runner
+RUN echo "[safe] \n        directory = /docs/docs" > /.gitconfig
