@@ -1,3 +1,4 @@
+docs-chat-bot
 material
 mkdocs-add-teaser
 mkdocs-awesome-pages-plugin
