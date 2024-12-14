@@ -1,4 +1,5 @@
 docs-chat-bot
+markitdown
 material
 mkdocs-add-teaser
 mkdocs-awesome-pages-plugin
