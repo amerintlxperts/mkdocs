@@ -1,4 +1,5 @@
 docs-chat-bot
+lightgallery
 markitdown
 material
 mkdocs-add-teaser
