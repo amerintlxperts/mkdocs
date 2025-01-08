@@ -32,7 +32,7 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
     PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 RUN npm install -g playwright && \
-    npx playwright install --with-deps
+    npx playwright install
 
 RUN update-ms-fonts && \
     fc-cache -f
