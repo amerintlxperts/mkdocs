@@ -7,11 +7,16 @@ RUN apk add --no-cache \
   freetype \
   fontconfig \
   font-noto \
+  g++ \
+  gcc \
   font-noto-emoji \
   gobject-introspection \
   harfbuzz \
   harfbuzz-subset \
+  jpeg-dev \
   libstdc++ \
+  libffi-dev \
+  musl-dev \
   msttcorefonts-installer \
   nodejs \
   npm \
