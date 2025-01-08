@@ -31,7 +31,7 @@ RUN apk add --no-cache \
   ttf-freefont \
   weasyprint \
   wqy-zenhei \
-  wkhtmltopdf
+  xvfb
 
 RUN update-ms-fonts && \
     fc-cache -f
