@@ -22,5 +22,4 @@ mkdocstrings[crystal,python]
 mkdocs-with-pdf
 poetry
 pydyf
-pytest-playwright
 qrcode
