@@ -8,16 +8,11 @@ RUN apk add --no-cache \
   fontconfig \
   font-noto \
   font-noto-emoji \
-  g++ \
-  gcc \
   gobject-introspection \
   harfbuzz \
   harfbuzz-subset \
-  jpeg-dev \
-  libffi-dev \
   libstdc++ \
   msttcorefonts-installer \
-  musl-dev \
   nodejs \
   nodejs-npm \
   npm \
@@ -28,12 +23,10 @@ RUN apk add --no-cache \
   py3-cffi \
   py3-pip \
   python3-dev \
-  tini \
   ttf-dejavu \
   ttf-freefont \
   weasyprint \
-  wqy-zenhei \
-  zlib-dev
+  wqy-zenhei
 
 ENV CHROME_BIN=/usr/bin/chromium-browser \
     CHROME_PATH=/usr/lib/chromium/ \
