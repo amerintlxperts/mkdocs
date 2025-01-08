@@ -5,6 +5,7 @@ material
 mkdocs-add-teaser
 mkdocs-awesome-pages-plugin
 mkdocs-enumerate-headings-plugin
+mkdocs-exporter
 mkdocs-exclude
 mkdocs-git-authors-plugin
 mkdocs-git-committers-plugin-2
@@ -21,3 +22,4 @@ mkdocs-table-reader-plugin
 mkdocstrings[crystal,python]
 mkdocs-with-pdf
 pydyf
+qrcode
