@@ -30,7 +30,8 @@ RUN apk add --no-cache \
   ttf-dejavu \
   ttf-freefont \
   weasyprint \
-  wqy-zenhei
+  wqy-zenhei \
+  wkhtmltopdf
 
 RUN update-ms-fonts && \
     fc-cache -f
