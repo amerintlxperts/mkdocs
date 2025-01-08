@@ -27,13 +27,6 @@ RUN apk add --no-cache \
   weasyprint \
   wqy-zenhei
 
-ENV CHROME_BIN=/usr/bin/chromium-browser \
-    CHROME_PATH=/usr/lib/chromium/ \
-    PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
-
-RUN npm install -g playwright && \
-    npx playwright install
-
 RUN update-ms-fonts && \
     fc-cache -f
 
