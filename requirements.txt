@@ -21,6 +21,7 @@ mkdocs-section-index
 mkdocs-table-reader-plugin
 mkdocstrings[crystal,python]
 mkdocs-with-pdf
+poetry
 pydyf
 pytest-playwright
 qrcode
