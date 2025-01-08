@@ -14,7 +14,6 @@ RUN apk add --no-cache \
   libstdc++ \
   msttcorefonts-installer \
   nodejs \
-  nodejs-npm \
   npm \
   nss \
   openjpeg-dev \
