@@ -29,6 +29,9 @@ RUN apk add --no-cache \
   python3-dev \
   ttf-dejavu \
   ttf-freefont \
+  ttf-droid \
+  ttf-freefont \
+  ttf-liberation
   weasyprint \
   wqy-zenhei \
   xvfb
