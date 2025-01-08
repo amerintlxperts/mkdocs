@@ -2,6 +2,7 @@ FROM squidfunk/mkdocs-material:latest
 COPY requirements.txt ./
 RUN apk add --no-cache \
   cairo-dev \
+  ca-certificates \
   chromium \
   curl \
   freetype \
@@ -16,6 +17,10 @@ RUN apk add --no-cache \
   jpeg-dev \
   libstdc++ \
   libffi-dev \
+  libx11 \
+  libxrender \
+  libxext \
+  libssl3 \
   musl-dev \
   msttcorefonts-installer \
   nodejs \
@@ -31,7 +36,7 @@ RUN apk add --no-cache \
   ttf-freefont \
   ttf-droid \
   ttf-freefont \
-  ttf-liberation
+  ttf-liberation \
   weasyprint \
   wqy-zenhei \
   xvfb
