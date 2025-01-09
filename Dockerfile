@@ -1,5 +1,7 @@
 FROM squidfunk/mkdocs-material:latest
+
 COPY requirements.txt ./
+
 RUN apk add --no-cache \
   cairo-dev \
   ca-certificates \
@@ -41,9 +43,14 @@ RUN apk add --no-cache \
   wqy-zenhei \
   xvfb
 
+# Create and set writable permissions for fontconfig cache directory
+RUN mkdir -p /var/cache/fontconfig && \
+    chmod -R 777 /var/cache/fontconfig
+
 RUN update-ms-fonts && \
     fc-cache -f
 
 RUN pip install -U -r requirements.txt
+
 RUN echo "[safe]" > /.gitconfig
 RUN echo "        directory = /docs/docs" >> /.gitconfig
