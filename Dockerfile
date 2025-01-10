@@ -74,6 +74,9 @@ RUN for theme in mkdocs readthedocs; do \
       ${PACKAGES}/mkdocs/themes/$theme; \
   done
 
+RUN pip install playwright
+RUN playwright install --with-deps
+
 RUN apt-get autoremove -y --purge build-essential libffi-dev
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache
