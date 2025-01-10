@@ -12,6 +12,7 @@ mkdocs-github-admonitions-plugin
 mkdocs-git-revision-date-localized-plugin
 mkdocs-glightbox
 mkdocs-literate-nav
+mkdocs-macros-plugin
 mkdocs-minify-plugin
 mkdocs-monorepo-plugin
 mkdocs-pdf-export-plugin
@@ -20,6 +21,7 @@ mkdocs-section-index
 mkdocs-table-reader-plugin
 mkdocstrings[crystal,python]
 mkdocs-with-pdf
+pymdown-extensions
 poetry
 pydyf
 qrcode
