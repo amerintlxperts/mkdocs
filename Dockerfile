@@ -18,14 +18,14 @@ COPY *requirements.txt ./
 COPY pyproject.toml pyproject.toml
 
 # Perform build and cleanup artifacts and caches
-RUN apt-get update 
+RUN apt-get update
 RUN apt-get upgrade -y
+
 RUN apt-get install -y --no-install-recommends \
     libcairo2 \
     libcairo2-dev \
     libfreetype6-dev \
     git \
-    git-fast-import \
     libjpeg-dev \
     openssh-client \
     tini \
