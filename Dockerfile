@@ -88,6 +88,8 @@ RUN mkdir -p /var/cache/fontconfig && \
 
 RUN fc-cache -f
 
+RUN pip install -U -r requirements.txt
+
 RUN git config --system --add safe.directory /docs 
 RUN git config --system --add safe.directory /site
 
