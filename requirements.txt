@@ -10,6 +10,7 @@ mkdocs-add-teaser
 mkdocs-awesome-pages-plugin
 mkdocs-enumerate-headings-plugin
 mkdocs-exclude
+mkdocs-exporter
 mkdocs-git-authors-plugin
 mkdocs-git-committers-plugin-2
 mkdocs-github-admonitions-plugin
