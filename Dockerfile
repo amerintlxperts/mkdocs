@@ -14,7 +14,7 @@ WORKDIR /tmp
 COPY material material
 COPY package.json package.json
 COPY README.md README.md
-COPY *requirements.txt ./
+COPY requirements.txt ./
 COPY pyproject.toml pyproject.toml
 
 # Perform build and cleanup artifacts and caches
