@@ -51,6 +51,4 @@ RUN update-ms-fonts && \
     fc-cache -f
 
 RUN pip install -U -r requirements.txt
-
-RUN echo "[safe]" > /.gitconfig
-RUN echo "        directory = /docs/docs" >> /.gitconfig
+RUN git config --global --add safe.directory '*'
