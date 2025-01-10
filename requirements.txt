@@ -1,7 +1,11 @@
+babel
+colorama
 docs-chat-bot
+jinja2
 lightgallery
+markdown
 markitdown
-material
+mkdocs
 mkdocs-add-teaser
 mkdocs-awesome-pages-plugin
 mkdocs-enumerate-headings-plugin
@@ -12,6 +16,7 @@ mkdocs-github-admonitions-plugin
 mkdocs-git-revision-date-localized-plugin
 mkdocs-glightbox
 mkdocs-literate-nav
+mkdocs-material-extensions
 mkdocs-macros-plugin
 mkdocs-minify-plugin
 mkdocs-monorepo-plugin
@@ -21,7 +26,11 @@ mkdocs-section-index
 mkdocs-table-reader-plugin
 mkdocstrings[crystal,python]
 mkdocs-with-pdf
+paginate
 pymdown-extensions
 poetry
 pydyf
+pygments
 qrcode
+regex
+requests
