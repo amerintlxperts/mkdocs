@@ -18,12 +18,9 @@ COPY *requirements.txt ./
 COPY pyproject.toml pyproject.toml
 
 # Perform build and cleanup artifacts and caches
-RUN \
-  apt-get update \
-&& \
-  apt-get upgrade -y \
-&& \
-  apt-get install -y --no-install-recommends \
+RUN apt-get update 
+RUN apt-get upgrade -y
+RUN apt-get install -y --no-install-recommends \
     libcairo2 \
     libcairo2-dev \
     libfreetype6-dev \
@@ -34,43 +31,34 @@ RUN \
     tini \
     zlib1g-dev \
     build-essential \
-    libffi-dev \
-&& \
-  pip install --no-cache-dir --upgrade pip \
-&& \
-  pip install --no-cache-dir . \
-&& \
-  if [ "${WITH_PLUGINS}" = "true" ]; then \
-    pip install --no-cache-dir \
+    libffi-dev 
+
+RUN pip install --no-cache-dir --upgrade pip
+
+RUN pip install --no-cache-dir .
+
+RUN pip install --no-cache-dir \
       mkdocs-material[recommended] \
-      mkdocs-material[imaging]; \
-  fi \
-&& \
-  if [ -e user-requirements.txt ]; then \
-    pip install -U -r user-requirements.txt; \
-  fi \
-&& \
-  for theme in mkdocs readthedocs; do \
+      mkdocs-material[imaging];
+
+RUN for theme in mkdocs readthedocs; do \
     rm -rf ${PACKAGES}/mkdocs/themes/$theme; \
     ln -s \
       ${PACKAGES}/material/templates \
       ${PACKAGES}/mkdocs/themes/$theme; \
-  done \
-&& \
-  apt-get autoremove -y --purge build-essential libffi-dev \
-&& \
-  apt-get clean \
-&& \
-  rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache \
-&& \
-  find ${PACKAGES} \
+  done
+
+RUN apt-get autoremove -y --purge build-essential libffi-dev
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache
+
+RUN find ${PACKAGES} \
     -type f \
     -path "*/__pycache__/*" \
-    -exec rm -f {} \; \
-&& \
-  git config --system --add safe.directory /docs \
-&& \
-  git config --system --add safe.directory /site
+    -exec rm -f {} \;
+
+RUN git config --system --add safe.directory /docs 
+RUN git config --system --add safe.directory /site
 
 # From empty image
 FROM scratch
