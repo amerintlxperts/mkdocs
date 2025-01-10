@@ -1,4 +1,4 @@
-FROM python:3 AS build
+FROM python:3.11 AS build
 
 # Build-time flags
 ARG WITH_PLUGINS=true
