@@ -34,7 +34,7 @@ RUN apt-get install -y --no-install-recommends \
     libffi-dev \
     build-essential \
     ca-certificates \
-    chromium-browser \
+    chromium \
     curl \
     fonts-dejavu \
     fonts-droid-fallback \
