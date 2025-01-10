@@ -14,7 +14,7 @@ WORKDIR /tmp
 COPY material material
 COPY package.json package.json
 COPY README.md README.md
-COPY requirements.txt /requirements.txt
+COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 
 # Perform build and cleanup artifacts and caches
@@ -88,7 +88,7 @@ RUN mkdir -p /var/cache/fontconfig && \
 
 RUN fc-cache -f
 
-RUN pip install -U -r /requirements.txt
+#RUN pip install -U -r /requirements.txt
 
 RUN git config --system --add safe.directory /docs 
 RUN git config --system --add safe.directory /site
