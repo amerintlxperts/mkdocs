@@ -31,7 +31,33 @@ RUN apt-get install -y --no-install-recommends \
     tini \
     zlib1g-dev \
     build-essential \
-    libffi-dev 
+    libffi-dev \
+    build-essential \
+    ca-certificates \
+    chromium-browser \
+    curl \
+    fonts-dejavu \
+    fonts-droid-fallback \
+    fonts-freefont-ttf \
+    fonts-liberation \
+    fonts-noto \
+    fonts-noto-color-emoji \
+    fonts-wqy-zenhei \
+    gobject-introspection \
+    libffi-dev \
+    libfreetype6-dev \
+    libjpeg-dev \
+    libssl-dev \
+    libx11-dev \
+    libxext-dev \
+    libxrender-dev \
+    libpango1.0-dev \
+    libharfbuzz-dev \
+    libopenjp2-7-dev \
+    nodejs \
+    npm \
+    xvfb \
+    weasyprint
 
 RUN pip install --no-cache-dir --upgrade pip
 
@@ -56,6 +82,11 @@ RUN find ${PACKAGES} \
     -type f \
     -path "*/__pycache__/*" \
     -exec rm -f {} \;
+
+RUN mkdir -p /var/cache/fontconfig && \
+    chmod -R 777 /var/cache/fontconfig
+
+RUN fc-cache -f
 
 RUN git config --system --add safe.directory /docs 
 RUN git config --system --add safe.directory /site
