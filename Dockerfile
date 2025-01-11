@@ -76,6 +76,10 @@ RUN for theme in mkdocs readthedocs; do \
 
 RUN pip install playwright
 RUN playwright install --with-deps
+RUN playwright install chromium
+ENV PLAYWRIGHT_BROWSERS_PATH=0
+RUN playwright install
+
 
 RUN apt-get autoremove -y --purge build-essential libffi-dev
 RUN apt-get clean
