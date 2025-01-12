@@ -11,7 +11,7 @@ ENV PYTHONDONTWRITEBYTECODE "1"
 ENV PYTHONUNBUFFERED "1"
 ENV PYTHONFAULTHANDLER "1"
 
-# ENV PLAYWRIGHT_BROWSERS_PATH "/ms-playwright"
+ENV PLAYWRIGHT_BROWSERS_PATH "/ms-playwright"
 
 ENV LANG "C.UTF-8"
 ENV LC_ALL "C.UTF-8"
@@ -88,14 +88,11 @@ RUN for theme in mkdocs readthedocs; do \
   done
 
 # Install Playwright and its dependencies
-# RUN mkdir -p /ms-playwright
-# RUN chmod -R 777 /ms-playwright
-# RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright npm install -g playwright
-# RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install --with-deps
-# RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install chromium
-RUN npm install -g playwright
-RUN playwright install --with-deps
-RUN playwright install chromium
+RUN mkdir -p /ms-playwright
+RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright npm install -g playwright
+RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install --with-deps
+RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install chromium
+RUN chmod -R 777 /ms-playwright
 
 # Clean up unnecessary files
 RUN apt-get autoremove -y --purge build-essential libffi-dev && \
