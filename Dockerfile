@@ -2,11 +2,14 @@ FROM python:3.11 AS build
 
 # Build-time flags
 ARG WITH_PLUGINS=true
+ARG DEBIAN_FRONTEND=noninteractive
 
 # Environment variables
 ENV PACKAGES=/usr/local/lib/python3.11/site-packages
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
 # Set build directory
 WORKDIR /tmp
@@ -19,14 +22,48 @@ COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libcairo2 libcairo2-dev libfreetype6-dev git libjpeg-dev openssh-client \
-    tini zlib1g-dev build-essential libffi-dev ca-certificates chromium curl \
-    fonts-dejavu fonts-droid-fallback fonts-freefont-ttf fonts-liberation \
-    fonts-noto fonts-noto-color-emoji fonts-wqy-zenhei gobject-introspection \
-    libssl-dev libx11-dev libxext-dev libxrender-dev libpango1.0-dev \
-    libharfbuzz-dev libopenjp2-7-dev nodejs npm xvfb weasyprint && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -sL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" >> /etc/apt/sources.list.d/nodesource.list
+
+RUN apt-get update
+
+RUN apt-get install -y \
+    libcairo2 \
+    libcairo2-dev \
+    libfreetype6-dev \
+    git \
+    libjpeg-dev \
+    tini \
+    zlib1g-dev \
+    build-essential \
+    libffi-dev \
+    ca-certificates \
+    chromium \
+    curl \
+    fonts-dejavu \
+    fonts-droid-fallback \
+    fonts-freefont-ttf \
+    fonts-liberation \
+    fonts-noto \
+    fonts-noto-color-emoji \
+    fonts-wqy-zenhei \
+    gobject-introspection \
+    libssl-dev \
+    libx11-dev \
+    libxext-dev \
+    libxrender-dev \
+    libpango1.0-dev \
+    libharfbuzz-dev \
+    libopenjp2-7-dev \
+    nodejs \
+    openssh-client \
+    npm \
+    yarn \
+    xvfb \
+    weasyprint
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip and install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip
