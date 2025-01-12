@@ -48,6 +48,9 @@ RUN pip install playwright
 RUN mkdir -p /ms-playwright && \
     PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install --with-deps
 
+# Keep Playwright browsers available in the final image
+RUN chmod -R 777 /ms-playwright
+
 # Clean up unnecessary files
 RUN apt-get autoremove -y --purge build-essential libffi-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache
