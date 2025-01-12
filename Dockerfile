@@ -89,15 +89,13 @@ RUN for theme in mkdocs readthedocs; do \
 
 # Install Playwright and its dependencies
 # RUN mkdir -p /ms-playwright
+# RUN chmod -R 777 /ms-playwright
 # RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright npm install -g playwright
 # RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install --with-deps
 # RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install chromium
 RUN npm install -g playwright
 RUN playwright install --with-deps
 RUN playwright install chromium
-
-# Keep Playwright browsers available in the final image
-RUN chmod -R 777 /ms-playwright
 
 # Clean up unnecessary files
 RUN apt-get autoremove -y --purge build-essential libffi-dev && \
