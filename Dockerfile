@@ -56,14 +56,19 @@ RUN apt-get install -y \
     libpango1.0-dev \
     libharfbuzz-dev \
     libopenjp2-7-dev \
-    nodejs \
     openssh-client \
-    npm \
     yarn \
     xvfb \
     weasyprint
 
+# Install Node.js and npm (from official Node.js distribution)
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install Yarn
+RUN npm install -g yarn
 
 # Upgrade pip and install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip
