@@ -29,15 +29,7 @@ RUN curl -sL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --d
 RUN apt-get update
 
 RUN apt-get install -y \
-    libcairo2 \
-    libcairo2-dev \
-    libfreetype6-dev \
-    git \
-    libjpeg-dev \
-    tini \
-    zlib1g-dev \
     build-essential \
-    libffi-dev \
     ca-certificates \
     chromium \
     curl \
@@ -48,7 +40,13 @@ RUN apt-get install -y \
     fonts-noto \
     fonts-noto-color-emoji \
     fonts-wqy-zenhei \
+    git \
     gobject-introspection \
+    libjpeg-dev \
+    libcairo2 \
+    libcairo2-dev \
+    libfreetype6-dev \
+    libffi-dev \
     libssl-dev \
     libx11-dev \
     libxext-dev \
@@ -57,18 +55,17 @@ RUN apt-get install -y \
     libharfbuzz-dev \
     libopenjp2-7-dev \
     openssh-client \
+    tini \
     yarn \
     xvfb \
-    weasyprint
+    weasyprint \
+    zlib1g-dev
 
 # Install Node.js and npm (from official Node.js distribution)
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install Yarn
-RUN npm install -g yarn
 
 # Upgrade pip and install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip
