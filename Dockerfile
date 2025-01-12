@@ -6,6 +6,7 @@ ARG WITH_PLUGINS=true
 # Environment variables
 ENV PACKAGES=/usr/local/lib/python3.11/site-packages
 ENV PYTHONDONTWRITEBYTECODE=1
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 # Set build directory
 WORKDIR /tmp
@@ -17,56 +18,24 @@ COPY README.md README.md
 COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 
-# Perform build and cleanup artifacts and caches
-RUN apt-get update
-RUN apt-get upgrade -y
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libcairo2 libcairo2-dev libfreetype6-dev git libjpeg-dev openssh-client \
+    tini zlib1g-dev build-essential libffi-dev ca-certificates chromium curl \
+    fonts-dejavu fonts-droid-fallback fonts-freefont-ttf fonts-liberation \
+    fonts-noto fonts-noto-color-emoji fonts-wqy-zenhei gobject-introspection \
+    libssl-dev libx11-dev libxext-dev libxrender-dev libpango1.0-dev \
+    libharfbuzz-dev libopenjp2-7-dev nodejs npm xvfb weasyprint && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install -y --no-install-recommends \
-    libcairo2 \
-    libcairo2-dev \
-    libfreetype6-dev \
-    git \
-    libjpeg-dev \
-    openssh-client \
-    tini \
-    zlib1g-dev \
-    build-essential \
-    libffi-dev \
-    build-essential \
-    ca-certificates \
-    chromium \
-    curl \
-    fonts-dejavu \
-    fonts-droid-fallback \
-    fonts-freefont-ttf \
-    fonts-liberation \
-    fonts-noto \
-    fonts-noto-color-emoji \
-    fonts-wqy-zenhei \
-    gobject-introspection \
-    libffi-dev \
-    libfreetype6-dev \
-    libjpeg-dev \
-    libssl-dev \
-    libx11-dev \
-    libxext-dev \
-    libxrender-dev \
-    libpango1.0-dev \
-    libharfbuzz-dev \
-    libopenjp2-7-dev \
-    nodejs \
-    npm \
-    xvfb \
-    weasyprint
-
+# Upgrade pip and install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip
-
 RUN pip install --no-cache-dir .
-
 RUN pip install --no-cache-dir \
-      mkdocs-material[recommended] \
-      mkdocs-material[imaging];
+    mkdocs-material[recommended] \
+    mkdocs-material[imaging]
 
+# Link themes
 RUN for theme in mkdocs readthedocs; do \
     rm -rf ${PACKAGES}/mkdocs/themes/$theme; \
     ln -s \
@@ -74,23 +43,21 @@ RUN for theme in mkdocs readthedocs; do \
       ${PACKAGES}/mkdocs/themes/$theme; \
   done
 
+# Install Playwright and its dependencies
 RUN pip install playwright
-RUN playwright install --with-deps
+RUN mkdir -p /ms-playwright && \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install --with-deps
 
-RUN apt-get autoremove -y --purge build-essential libffi-dev
-RUN apt-get clean
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache
+# Clean up unnecessary files
+RUN apt-get autoremove -y --purge build-essential libffi-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache
 
-RUN find ${PACKAGES} \
-    -type f \
-    -path "*/__pycache__/*" \
-    -exec rm -f {} \;
-
+# Set up fonts
 RUN mkdir -p /var/cache/fontconfig && \
-    chmod -R 777 /var/cache/fontconfig
+    chmod -R 777 /var/cache/fontconfig && \
+    fc-cache -f
 
-RUN fc-cache -f
-
+# Configure git
 RUN git config --system --add safe.directory /docs 
 RUN git config --system --add safe.directory /site
 
