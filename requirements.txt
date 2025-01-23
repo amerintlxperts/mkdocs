@@ -7,7 +7,11 @@ markdown
 markitdown
 mkdocs
 mkdocs-add-teaser
+mkdocs-asciinema-player
 mkdocs-awesome-pages-plugin
+mkdocs-badges
+mkdocs-content-tabs
+mkdocs-drawio
 mkdocs-enumerate-headings-plugin
 mkdocs-exclude
 mkdocs-exporter
@@ -18,6 +22,7 @@ mkdocs-git-revision-date-localized-plugin
 mkdocs-glightbox
 mkdocs-literate-nav
 mkdocs-material-extensions
+mkdocs-material-mark-as-read
 mkdocs-macros-plugin
 mkdocs-minify-plugin
 mkdocs-monorepo-plugin
