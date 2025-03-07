@@ -16,9 +16,6 @@ ENV PLAYWRIGHT_BROWSERS_PATH="/ms-playwright"
 ENV LANG="C.UTF-8"
 ENV LC_ALL="C.UTF-8"
 
-# Set build directory
-WORKDIR /tmp
-
 # Copy files necessary for build
 COPY material material
 COPY package.json package.json
@@ -104,8 +101,11 @@ RUN mkdir -p /var/cache/fontconfig && \
     fc-cache -f
 
 # Configure git
-RUN git config --system --add safe.directory /docs 
-RUN git config --system --add safe.directory /site
+RUN mkdir -p /tmp/docs
+RUN mkdir -p /tmp/site
+RUN git config --system --add safe.directory /tmp/docs 
+RUN git config --system --add safe.directory /tmp/site
+RUN echo "INHERIT: docs/theme/mkdocs.yml" > "/tmp/mkdocs.yml"
 
 # From empty image
 FROM scratch
@@ -114,7 +114,7 @@ FROM scratch
 COPY --from=build / /
 
 # Set working directory
-WORKDIR /docs
+WORKDIR /tmp
 
 # Expose MkDocs development server port
 EXPOSE 8000
