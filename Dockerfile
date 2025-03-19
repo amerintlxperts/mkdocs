@@ -106,6 +106,9 @@ WORKDIR /tmp
 # Expose MkDocs development server port
 EXPOSE 8000
 
+# Add HEALTHCHECK section
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl --fail http://localhost:8000/ || exit 1
+
 # Start development server by default
 ENTRYPOINT ["/usr/bin/tini", "--", "mkdocs"]
 CMD ["serve", "--dev-addr=0.0.0.0:8000"]
