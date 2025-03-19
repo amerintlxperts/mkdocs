@@ -5,32 +5,27 @@ ARG WITH_PLUGINS=true
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Environment variables
-ENV PACKAGES="/usr/local/lib/python3.11/site-packages"
+ENV PACKAGES="/usr/local/lib/python3.11/site-packages" \
+    PYTHONDONTWRITEBYTECODE="1" \
+    PYTHONUNBUFFERED="1" \
+    PYTHONFAULTHANDLER="1" \
+    PLAYWRIGHT_BROWSERS_PATH="/ms-playwright" \
+    LANG="C.UTF-8" \
+    LC_ALL="C.UTF-8"
 
-ENV PYTHONDONTWRITEBYTECODE="1"
-ENV PYTHONUNBUFFERED="1"
-ENV PYTHONFAULTHANDLER="1"
-
-ENV PLAYWRIGHT_BROWSERS_PATH="/ms-playwright"
-
-ENV LANG="C.UTF-8"
-ENV LC_ALL="C.UTF-8"
-
-# Copy files necessary for build
+# Copy necessary files
 COPY material material
 COPY package.json package.json
 COPY README.md README.md
 COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 
-# Install system dependencies
-RUN mkdir -p /etc/apt/keyrings
-RUN curl -sL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" >> /etc/apt/sources.list.d/nodesource.list
-
-RUN apt-get update
-
-RUN apt-get install -y \
+# Install system dependencies and clean up in one step
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -sL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" >> /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update && \
+    apt-get install -y \
     build-essential \
     ca-certificates \
     chromium \
@@ -61,38 +56,31 @@ RUN apt-get install -y \
     yarn \
     xvfb \
     weasyprint \
-    zlib1g-dev
+    zlib1g-dev && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js and npm (from official Node.js distribution)
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
-    apt-get install -y nodejs
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Upgrade pip and install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install --no-cache-dir .
-RUN pip install --no-cache-dir \
+# Upgrade pip and install Python dependencies in one step
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir . && \
+    pip install --no-cache-dir \
     mkdocs-material[recommended] \
     mkdocs-material[imaging]
 
 # Link themes
 RUN for theme in mkdocs readthedocs; do \
-    rm -rf ${PACKAGES}/mkdocs/themes/$theme; \
-    ln -s \
-      ${PACKAGES}/material/templates \
-      ${PACKAGES}/mkdocs/themes/$theme; \
+    rm -rf ${PACKAGES}/mkdocs/themes/$theme && \
+    ln -s ${PACKAGES}/material/templates ${PACKAGES}/mkdocs/themes/$theme; \
   done
 
-# Install Playwright and its dependencies
-RUN mkdir -p /ms-playwright
-RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright npm install -g playwright
-RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install --with-deps
-RUN PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install chromium
-RUN chmod -R 777 /ms-playwright
-
-# Clean up unnecessary files
-RUN apt-get autoremove -y --purge build-essential libffi-dev && \
+# Install Playwright and its dependencies in one step
+RUN mkdir -p /ms-playwright && \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright npm install -g playwright && \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install --with-deps && \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright playwright install chromium && \
+    chmod -R 777 /ms-playwright && \
+    apt-get autoremove -y --purge build-essential libffi-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /root/.cache
 
 # Set up fonts
@@ -101,11 +89,10 @@ RUN mkdir -p /var/cache/fontconfig && \
     fc-cache -f
 
 # Configure git
-RUN mkdir -p /tmp/docs
-RUN mkdir -p /tmp/site
-RUN git config --system --add safe.directory /tmp/docs 
-RUN git config --system --add safe.directory /tmp/site
-RUN echo "INHERIT: docs/theme/mkdocs.yml" > "/tmp/mkdocs.yml"
+RUN mkdir -p /tmp/docs /tmp/site && \
+    git config --system --add safe.directory /tmp/docs && \
+    git config --system --add safe.directory /tmp/site && \
+    echo "INHERIT: docs/theme/mkdocs.yml" > "/tmp/mkdocs.yml"
 
 # From empty image
 FROM scratch
